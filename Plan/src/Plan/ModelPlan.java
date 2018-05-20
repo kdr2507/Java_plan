@@ -11,47 +11,61 @@ public class ModelPlan {
     Statement stmt;
     ResultSet rs;
  
-    String url = "jdbc:mysql:127.0.0.1:3306/java_plan";
+    String url = "jdbc:mysql://localhost:3306/java_plan";
     String id = "root";
     String pw = "autoset";
-	//----------------------------------------------------------
-    public ModelPlan() {
-    	try{
-            //드라이버 로딩 (Mysql 또는 Oracle 중에 선택하시면 됩니다.)
-            Class.forName("com.mysql.jdbc.Driver"); //mysql
-            //Class.forName("oracle.jdbc.driver.OracleDriver"); //oracle
-            
-            //커넥션을 가져온다.
-            con = DriverManager.getConnection(url, id, pw);
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-    }
 
+    public ModelPlan() {
+    	
+    	//JDBC 버전에 의해 DB접속이 안되는 경우 참고 : http://developer-kylee.tistory.com/8
+    	
+    	try{
+			//드라이버 로딩 (Mysql 또는 Oracle 중에 선택)
+            Class.forName("com.mysql.cj.jdbc.Driver"); //mysql
+            //Class.forName("oracle.jdbc.driver.OracleDriver"); //oracle
  
-    public void closeConnection(){
- 
-        try{
+        }catch(Exception e){
+            System.out.println("로딩 불가");
+        }
+		
+		//------------------------------------------------------------------
+		try {
+          	//커넥션을 가져온다.
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/java_plan?serverTimezone=UTC", "root", "autoset");
+
+		}catch(Exception e) {
+			System.out.println("커넥션을 가져오지 못한다.");
+		}
+		
+		//------------------------------------------------------------------
+		
+		try {
+			stmt = con.createStatement();
+            
+		}catch(Exception e) {
+			System.out.println("stmt에서 오류 발생");
+		}
+		
+		//------------------------------------------------------------------
+	}
+    
+    public void disConnection() {
+    	try{
             //자원 반환
             rs.close();
             stmt.close();
             con.close();
  
         }catch(Exception e){
-            e.printStackTrace();
+            System.out.println("자원 반환 불가");
         }
- 
     }
     
-    
-    
-    //----------------------------------------------------------
 	//로그인
 	public void loginUser(){
 		
-		try{
-            
-            stmt = con.createStatement();
+		try {
+			
             //데이터를 가져온다.
             rs = stmt.executeQuery("select * from user");
  
@@ -59,14 +73,12 @@ public class ModelPlan {
                 //출력
                 System.out.println(rs.getString("userId"));
 
- 
             }
- 
-        }catch(Exception e){
-            e.printStackTrace();
-        }
+		}catch(Exception e) {
+			System.out.println("데이터 가져오지 못함");
+		}
 		
-		closeConnection();
+		disConnection();
 		
 	}
 	
