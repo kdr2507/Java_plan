@@ -11,7 +11,7 @@ public class ModelPlan {
     Statement stmt;
     ResultSet rs;
  
-    String url = "jdbc:mysql://localhost:3306/java_plan";
+    String url = "jdbc:mysql://localhost:3306/java_plan?serverTimezone=UTC";
     String id = "root";
     String pw = "autoset";
 
@@ -31,7 +31,7 @@ public class ModelPlan {
 		//------------------------------------------------------------------
 		try {
           	//커넥션을 가져온다.
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/java_plan?serverTimezone=UTC", "root", "autoset");
+            con = DriverManager.getConnection(url, id, pw);
 
 		}catch(Exception e) {
 			System.out.println("커넥션을 가져오지 못한다.");
@@ -49,6 +49,7 @@ public class ModelPlan {
 		//------------------------------------------------------------------
 	}
     
+    //DB연결 종료
     public void disConnection() {
     	try{
             //자원 반환
