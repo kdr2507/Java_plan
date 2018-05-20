@@ -1,0 +1,45 @@
+이 프로그램에 필요한 DB 테이블 생성 쿼리
+
+use java_plan;<br>
+<br>
+CREATE TABLE user (<br>
+  userId    VarChar(45) CHARACTER SET utf8 NOT NULL,<br>
+  password  VarChar(90) CHARACTER SET utf8 NOT NULL,<br>
+  groupId   VarChar(45) CHARACTER SET utf8 DEFAULT NULL,<br>
+  join_date Timestamp CURRENT_TIMESTAMP, <br>
+  PRIMARY KEY (<br>
+      userId<br>
+  )<br>
+) ;<br>
+ALTER TABLE user COMMENT = '';<br>
+<br>
+<br>
+<br>
+CREATE TABLE notify (<br>
+  `No`                 Integer NOT NULL AUTO_INCREMENT,<br>
+  send_userId          VarChar(45) CHARACTER SET utf8,<br>
+  get_userId           VarChar(45) CHARACTER SET utf8,<br>
+  group_invite_message Text CHARACTER SET utf8,<br>
+  invite_time          Timestamp CURRENT_TIMESTAMP,<br>
+  check_time           Timestamp, <br>
+  PRIMARY KEY (<br>
+      `No`<br>
+  )<br>
+) ;<br>
+ALTER TABLE notify COMMENT = '';<br>
+<br>
+<br>
+CREATE TABLE plan (<br>
+  `No`       Integer NOT NULL AUTO_INCREMENT,<br>
+  userId     VarChar(45) CHARACTER SET utf8 NOT NULL,<br>
+  groupId    VarChar(45) CHARACTER SET utf8 DEFAULT NULL,<br>
+  plan       Text CHARACTER SET utf8 NOT NULL,<br>
+  inputTime  Timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,<br>
+  changeTime Timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,<br>
+  checkTime  Timestamp, <br>
+  PRIMARY KEY (<br>
+      `No`<br>
+  )<br>
+) ;<br>
+ALTER TABLE plan COMMENT = '';<br>
+<br>
