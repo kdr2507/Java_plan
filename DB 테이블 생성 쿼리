@@ -1,0 +1,44 @@
+이 프로그램에 필요한 DB 테이블 생성 쿼리
+
+use java_plan;
+
+CREATE TABLE user (
+  userId    VarChar(45) CHARACTER SET utf8 NOT NULL,
+  password  VarChar(90) CHARACTER SET utf8 NOT NULL,
+  groupId   VarChar(45) CHARACTER SET utf8 DEFAULT NULL,
+  join_date Timestamp CURRENT_TIMESTAMP, 
+  PRIMARY KEY (
+      userId
+  )
+) ;
+ALTER TABLE user COMMENT = '';
+
+
+
+CREATE TABLE notify (
+  `No`                 Integer NOT NULL AUTO_INCREMENT,
+  send_userId          VarChar(45) CHARACTER SET utf8,
+  get_userId           VarChar(45) CHARACTER SET utf8,
+  group_invite_message Text CHARACTER SET utf8,
+  invite_time          Timestamp CURRENT_TIMESTAMP,
+  check_time           Timestamp, 
+  PRIMARY KEY (
+      `No`
+  )
+) ;
+ALTER TABLE notify COMMENT = '';
+
+
+CREATE TABLE plan (
+  `No`       Integer NOT NULL AUTO_INCREMENT,
+  userId     VarChar(45) CHARACTER SET utf8 NOT NULL,
+  groupId    VarChar(45) CHARACTER SET utf8 DEFAULT NULL,
+  plan       Text CHARACTER SET utf8 NOT NULL,
+  inputTime  Timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  changeTime Timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  checkTime  Timestamp, 
+  PRIMARY KEY (
+      `No`
+  )
+) ;
+ALTER TABLE plan COMMENT = '';
