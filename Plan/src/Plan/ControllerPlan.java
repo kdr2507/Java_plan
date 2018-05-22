@@ -4,7 +4,7 @@ import Plan.ModelPlan;
 
 
 public class ControllerPlan {
-	public static void view(){
+	public void view(){
 		ViewPlan TF = new ViewPlan();
 		
 		TF.main_plan();

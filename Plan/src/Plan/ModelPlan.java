@@ -12,9 +12,11 @@ public class ModelPlan {
     ResultSet rs;
  
     String url = "jdbc:mysql://localhost:3306/java_plan?serverTimezone=UTC";
+    //String url = "jdbc:mariadb://localhost:9999/java_plan?serverTimezone=UTC";
     String id = "root";
     String pw = "autoset";
 
+    
     public ModelPlan() {
     	
     	//JDBC 버전에 의해 DB접속이 안되는 경우 참고 : http://developer-kylee.tistory.com/8
@@ -23,30 +25,18 @@ public class ModelPlan {
 			//드라이버 로딩 (Mysql 또는 Oracle 중에 선택)
             Class.forName("com.mysql.cj.jdbc.Driver"); //mysql
             //Class.forName("oracle.jdbc.driver.OracleDriver"); //oracle
+            //Class.forName("com.mariadb.cj.jdbc.Driver"); //mariadb
  
+            
+            //커넥션을 가져온다.
+            con = DriverManager.getConnection(url, id, pw);
+            
+            
+            stmt = con.createStatement();
         }catch(Exception e){
-            System.out.println("로딩 불가");
+            
         }
 		
-		//------------------------------------------------------------------
-		try {
-          	//커넥션을 가져온다.
-            con = DriverManager.getConnection(url, id, pw);
-
-		}catch(Exception e) {
-			System.out.println("커넥션을 가져오지 못한다.");
-		}
-		
-		//------------------------------------------------------------------
-		
-		try {
-			stmt = con.createStatement();
-            
-		}catch(Exception e) {
-			System.out.println("stmt에서 오류 발생");
-		}
-		
-		//------------------------------------------------------------------
 	}
     
     //DB연결 종료
@@ -70,11 +60,11 @@ public class ModelPlan {
             //데이터를 가져온다.
             rs = stmt.executeQuery("select * from user");
  
-            while(rs.next()){
+            /*while(rs.next()){
                 //출력
                 System.out.println(rs.getString("userId"));
 
-            }
+            }*/
 		}catch(Exception e) {
 			System.out.println("데이터 가져오지 못함");
 		}
