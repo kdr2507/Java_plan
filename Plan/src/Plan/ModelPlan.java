@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 public class ModelPlan {
 	
@@ -53,24 +54,29 @@ public class ModelPlan {
     }
     
 	//로그인
-	public void loginUser(){
+	public boolean loginUser(String ID, String PW){
+		
 		
 		try {
 			
             //데이터를 가져온다.
-            rs = stmt.executeQuery("select * from user");
- 
-            /*while(rs.next()){
-                //출력
-                System.out.println(rs.getString("userId"));
+            rs = stmt.executeQuery("select * from user where userId = '"+ID+"' and password = '"+PW+"'");
 
-            }*/
+            if(rs.isBeforeFirst()){
+            	return true;
+                
+            }else {
+            	return false;
+            }
+            
 		}catch(Exception e) {
 			System.out.println("데이터 가져오지 못함");
 		}
 		
 		disConnection();
 		
+		return false;
+
 	}
 	
 	//회원가입

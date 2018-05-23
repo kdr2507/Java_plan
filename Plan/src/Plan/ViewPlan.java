@@ -9,15 +9,20 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
 
 public class ViewPlan extends JFrame{
 	
-	JFrame jframe;
-	JPanel loginPanel, idPanel, pwPanel;
+	JPanel loginPanel;
 	JButton login, register;
 	JLabel id, pw;
 	JTextField inputId;
 	JPasswordField inputPw;
+	
+	public ViewPlan() {
+		super();
+	}
+	
 	public void main_plan(){
 		 login();
 		
@@ -25,8 +30,75 @@ public class ViewPlan extends JFrame{
 	
 	private void login(){
 		
-		jframe = new JFrame();
+		//로그인 패널 생성
+		loginPanel = new JPanel();
 		
+		setContentPane(loginPanel);
+		loginPanel.setLayout(null);
+		
+		
+		//ID 입력 부분
+		id = new JLabel("ID");
+		id.setBounds(134, 38, 57, 15);
+		loginPanel.add(id);
+		
+		
+		inputId = new JTextField();
+		inputId.setBounds(203, 35, 116, 21);
+		loginPanel.add(inputId);
+		inputId.setColumns(10);
+		
+		
+		//PW 입력 부분
+		pw = new JLabel("PW");
+		pw.setBounds(134, 69, 57, 15);
+		loginPanel.add(pw);
+		
+		inputPw = new JPasswordField();
+		inputPw.setBounds(203, 66, 116, 21);
+		loginPanel.add(inputPw);
+		inputPw.setColumns(10);
+		
+		
+		//로그인 버튼
+		login = new JButton("login");
+		login.setBounds(113, 117, 97, 23);
+		loginPanel.add(login);
+		
+		
+		//회원가입 버튼
+		register = new JButton("register");
+		register.setBounds(222, 117, 97, 23);
+		loginPanel.add(register);
+		
+		//로그인 버튼을 누를 경우 동작
+		login.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String sendId = inputId.getText();
+				String sendPw = inputPw.getText();
+				
+				ModelPlan login_check = new ModelPlan();
+				if(login_check.loginUser(sendId, sendPw) == true) {
+					System.out.println("존재하는 유저입니다.");					
+				}else {
+					System.out.println("존재하는 유저가 아닙니다.");
+				}
+
+			}
+		});
+		
+		//회원가입 버튼을 누를 경우 동작
+		register.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				ModelPlan MP = new ModelPlan();
+				String text = MP.registerUser();
+				
+				System.out.println(text);
+			}
+		});
+		
+		/*
 		//FlowLayout 사용 => 왼쪽에서 오른쪽으로 정렬
 		setLayout(new FlowLayout());
 		
@@ -40,12 +112,12 @@ public class ViewPlan extends JFrame{
 		pwPanel = new JPanel();
 		
 		//id 입력 텍스트 칸
-		inputId = new JTextField();
 		id = new JLabel("ID");
+		inputId = new JTextField(10);
 		
 		//pw 입력 텍스트 칸
-		inputPw = new JPasswordField();
 		pw = new JLabel("PW");
+		inputPw = new JPasswordField(10);
 		
 		
 		
@@ -57,9 +129,11 @@ public class ViewPlan extends JFrame{
 		pwPanel.add(pw);
 		pwPanel.add(inputPw);
 		
-		//로그인패널에 id패널, pw패널 추가  
-		loginPanel.add(idPanel);
-		loginPanel.add(pwPanel);
+  
+		//로그인패널에 id패널, pw패널 추가		
+		add(idPanel);
+		
+		add(pwPanel);
 		
 		//로그인 버튼
 		login = new JButton("Sign in");
@@ -68,6 +142,7 @@ public class ViewPlan extends JFrame{
 		
 		loginPanel.add(login);
 		loginPanel.add(register);
+		
 		
 		//로그인 버튼을 누를 경우 동작
 		login.addActionListener(new ActionListener() {
@@ -91,12 +166,13 @@ public class ViewPlan extends JFrame{
 		
 		
 		
+		add(loginPanel);
+		*/
 		
-		jframe.add(loginPanel);
 		
-		jframe.setTitle("계획 확인 프로그램");
-		jframe.setSize(500, 500);
-		jframe.setVisible(true);
-		jframe.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		setTitle("계획 확인 프로그램");
+		setSize(500, 500);
+		setVisible(true);
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
 }
