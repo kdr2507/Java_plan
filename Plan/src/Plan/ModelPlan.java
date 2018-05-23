@@ -32,8 +32,8 @@ public class ModelPlan {
             //커넥션을 가져온다.
             con = DriverManager.getConnection(url, id, pw);
             
-            
             stmt = con.createStatement();
+            
         }catch(Exception e){
             
         }
@@ -80,9 +80,31 @@ public class ModelPlan {
 	}
 	
 	//회원가입
-	public String registerUser(){
+	public boolean registerUser(String ID, String PW, String PW_Check){
+		if(PW.equals(PW_Check)) {
+			String sql = "insert into user(userId, password) values('"+ID+"', '"+PW+"');";
+			try {
+				
+				rs = stmt.executeQuery(sql);
+			}catch(Exception e) {
+				//return false;
+				disConnection();
+				System.out.println(sql);
+			}
+		}else {
+			//PW와 PW_Check가 같지 않으면 회원가입 안됨
+			disConnection();
+			return false;
+		}
+		disConnection();
+		return true;
 		
-		return "회원가입 시작";
+	}
+	
+	//ID 존재유무 확인
+	public void ID_Check(){
+		
+		
 	}
 	
 	//그룹 생성
