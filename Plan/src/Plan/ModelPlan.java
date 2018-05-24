@@ -78,7 +78,9 @@ public class ModelPlan {
 	//회원가입
 	public boolean registerUser(String ID, String PW, String PW_Check){
 		if(PW.equals(PW_Check)) {
+			
 			String sql = "insert into user(userId, password) values('"+ID+"', '"+PW+"');";
+			
 			try {
 				
 				stmt.executeUpdate(sql);
@@ -122,9 +124,36 @@ public class ModelPlan {
 	}
 	
 	//ID 존재유무 확인
-	public void ID_Check(){
+	public boolean ID_Check(String ID){
 		
+			try {
+			
+            //데이터를 가져온다.
+			//ID가 존재하면 false 존재하지 않으면 true
+            rs = stmt.executeQuery("select * from user where userId = '"+ID+"';");
+
+            if(rs.isBeforeFirst()){
+            	return false;
+                
+            }else {
+            	return true;
+            }
+            
+		}catch(Exception e) {
+			System.out.println("데이터 가져오지 못함");
+		}
 		
+		//DB연결 종료
+		try {
+			
+			rs.close();
+	        stmt.close();
+	        con.close();
+		}catch(Exception e) {
+			
+		}
+		
+		return false;
 	}
 	
 	//그룹 생성

@@ -17,12 +17,17 @@ public class ViewPlan extends JFrame{
 	
 	JPanel loginPanel, registerPanel;
 	JButton login, register_button, cancel_button_register, button_register, id_check_button_register;
-	JLabel id, pw, ID_register, PW_register, PW_check_register, pw_equal_check_button_register;
+	JLabel id, pw, ID_register, PW_register, PW_check_register, pw_equal_check_register, result_label_register;
 	JTextField inputId, input_id_register;
 	JPasswordField inputPw, input_pw_register, input_pw_check_register;
 	
+	//회원가입시 ID, PW 체크
+	boolean id_check, pw_check;
+	
 	public ViewPlan() {
 		super();
+		this.id_check = false;
+		this.pw_check = false;
 	}
 	
 	public void main_plan(){
@@ -162,10 +167,11 @@ public class ViewPlan extends JFrame{
 			public void keyReleased(KeyEvent e) {
 				
 				if(input_pw_register.getText().equals(input_pw_check_register.getText())) {
-					pw_equal_check_button_register.setText("O");
+					pw_check = true;
+					pw_equal_check_register.setText("O");
 
 				}else {
-					pw_equal_check_button_register.setText("X");
+					pw_equal_check_register.setText("X");
 
 				}
 				
@@ -201,16 +207,20 @@ public class ViewPlan extends JFrame{
 		//회원가입 이벤트
 		button_register.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(pw_equal_check_button_register.getText().equals("O")) {
+				if(pw_equal_check_register.getText().equals("O")) {
 					ModelPlan MP = new ModelPlan();
-					if(MP.registerUser(input_id_register.getText(), input_pw_register.getText(), input_pw_check_register.getText()) == true) {
-						System.out.println("회원가입이 완료되었습니다.");
+					if(id_check && pw_check) {
+						if(MP.registerUser(input_id_register.getText(), input_pw_register.getText(), input_pw_check_register.getText()) == true) {
+							result_label_register.setText("회원가입이 완료되었습니다.");
+						}else {
+							result_label_register.setText("회원가입이 완료되지 않았습니다.");
+						}
 					}else {
-						System.out.println("회원가입이 완료되지 않았습니다.");
+						System.out.println("ID, PW 확인해주세요");
 					}
 					
-				}else if(pw_equal_check_button_register.getText().equals("X")){
-					pw_equal_check_button_register.setText("PW가 일치하지 않습니다.");
+				}else if(pw_equal_check_register.getText().equals("X")){
+					pw_equal_check_register.setText("PW가 일치하지 않습니다.");
 				}
 				
 			}
@@ -224,14 +234,32 @@ public class ViewPlan extends JFrame{
 		//ID가 존재하는지 확인 이벤트
 		id_check_button_register.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				ModelPlan MP = new ModelPlan();
+				if(MP.ID_Check(input_id_register.getText())) {
+					id_check = true;
+					
+					result_label_register.setText("ID 사용 가능!");
+					
+				}else {
+					result_label_register.setText("회원가입 불가능 존재하는 ID");
+					
+				}
 			}
 		});
 		
 		//PW가 동일하면 O 틀리면 X
-		pw_equal_check_button_register = new JLabel("");
-		pw_equal_check_button_register.setBounds(305, 126, 57, 15);
-		registerPanel.add(pw_equal_check_button_register);
+		pw_equal_check_register = new JLabel("");
+		pw_equal_check_register.setBounds(305, 126, 57, 15);
+		registerPanel.add(pw_equal_check_register);
+		pw_equal_check_register.setSize(300, 20);
+		
+		
+		//회원가입에 대한 결과출력 라벨
+		result_label_register = new JLabel("");
+		result_label_register.setBounds(102, 180, 57, 15);
+		registerPanel.add(result_label_register);
+		
+		result_label_register.setSize(300, 20);
 		
 		setTitle("회원가입");
 		setSize(500, 500);
