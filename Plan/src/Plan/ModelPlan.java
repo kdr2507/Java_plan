@@ -40,18 +40,7 @@ public class ModelPlan {
 		
 	}
     
-    //DB연결 종료
-    public void disConnection() {
-    	try{
-            //자원 반환
-            rs.close();
-            stmt.close();
-            con.close();
- 
-        }catch(Exception e){
-            System.out.println("자원 반환 불가");
-        }
-    }
+    
     
 	//로그인
 	public boolean loginUser(String ID, String PW){
@@ -73,8 +62,15 @@ public class ModelPlan {
 			System.out.println("데이터 가져오지 못함");
 		}
 		
-		disConnection();
-		
+		//DB연결 종료
+		try {
+			
+			rs.close();
+	        stmt.close();
+	        con.close();
+		}catch(Exception e) {
+			
+		}
 		return false;
 
 	}
@@ -85,19 +81,43 @@ public class ModelPlan {
 			String sql = "insert into user(userId, password) values('"+ID+"', '"+PW+"');";
 			try {
 				
-				rs = stmt.executeQuery(sql);
+				stmt.executeUpdate(sql);
+				
 			}catch(Exception e) {
-				//return false;
-				disConnection();
-				System.out.println(sql);
+				//DB연결 종료
+				try {
+			        stmt.close();
+			        con.close();
+				}catch(Exception e_sub) {
+					
+				}
+				
+				return false;
 			}
 		}else {
 			//PW와 PW_Check가 같지 않으면 회원가입 안됨
-			disConnection();
+			
+			//DB연결 종료
+			try {
+		        stmt.close();
+		        con.close();
+			}catch(Exception e_sub) {
+				
+			}
+			
 			return false;
 		}
-		disConnection();
+		
+		//DB연결 종료
+		try {
+	        stmt.close();
+	        con.close();
+		}catch(Exception e) {
+			
+		}
+		
 		return true;
+		
 		
 	}
 	
