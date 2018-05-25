@@ -16,7 +16,7 @@ import javax.swing.border.EmptyBorder;
 
 import Controller.ControllerPlan;
 
-public class ViewPlan extends JFrame{
+public class View_login_register extends JFrame{
 	
 	JPanel loginPanel, registerPanel;
 	JButton login, register_button, cancel_button_register, button_register, id_check_button_register;
@@ -27,7 +27,7 @@ public class ViewPlan extends JFrame{
 	//회원가입시 ID, PW 체크
 	boolean id_check, pw_check;
 	
-	public ViewPlan() {
+	public View_login_register() {
 		super();
 		this.id_check = false;
 		this.pw_check = false;

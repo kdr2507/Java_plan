@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-public class ModelPlan {
+public class Model_login_register {
 	
 	Connection con;
     Statement stmt;
@@ -18,7 +18,7 @@ public class ModelPlan {
     String pw = "autoset";
 
     
-    public ModelPlan() {
+    public Model_login_register() {
     	
     	//JDBC 버전에 의해 DB접속이 안되는 경우 참고 : http://developer-kylee.tistory.com/8
     	

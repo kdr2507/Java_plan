@@ -1,18 +1,18 @@
 package Controller;
-import Model.ModelPlan;
-import View.ViewPlan;
+import Model.Model_login_register;
+import View.View_login_register;
 
 
 public class ControllerPlan {
 	public void view(){
-		ViewPlan TF = new ViewPlan();
+		View_login_register TF = new View_login_register();
 		
 		TF.main_plan();
 	}
 	
 	//로그인 메서드
 	public void login_controller(String ID, String PW) {
-		ModelPlan MP = new ModelPlan();
+		Model_login_register MP = new Model_login_register();
 		if(MP.loginUser(ID, PW)) {
 			System.out.println("로그인 완료");
 		}else{
@@ -22,7 +22,7 @@ public class ControllerPlan {
 	
 	//회원가입 메서드
 	public boolean register(String ID, String PW, String PW_Check) {
-		ModelPlan MP = new ModelPlan();
+		Model_login_register MP = new Model_login_register();
 		
 		return MP.registerUser(ID, PW, PW_Check);
 	}
@@ -38,7 +38,7 @@ public class ControllerPlan {
 	}
 	
 	public boolean id_check(String ID) {
-		ModelPlan MP = new ModelPlan();
+		Model_login_register MP = new Model_login_register();
 		
 		return MP.ID_Check(ID);
 	}
