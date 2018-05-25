@@ -1,5 +1,7 @@
 package View;
 
+import View.View_schedule;
+
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -20,7 +22,7 @@ public class View_login_register extends JFrame{
 	
 	JPanel loginPanel, registerPanel;
 	JButton login, register_button, cancel_button_register, button_register, id_check_button_register;
-	JLabel id, pw, ID_register, PW_register, PW_check_register, pw_equal_check_register, result_label_register;
+	JLabel id, pw, ID_register, PW_register, PW_check_register, pw_equal_check_register, result_label_register, result;
 	JTextField inputId, input_id_register;
 	JPasswordField inputPw, input_pw_register, input_pw_check_register;
 	
@@ -33,10 +35,6 @@ public class View_login_register extends JFrame{
 		this.pw_check = false;
 	}
 	
-	public void main_plan(){
-		 login();
-		
-	}
 	
 	public void login(){
 		
@@ -89,7 +87,15 @@ public class View_login_register extends JFrame{
 				
 				
 				ControllerPlan CP = new ControllerPlan();
-				CP.login_controller(sendId, sendPw);
+				if(CP.login_controller(sendId, sendPw)) {
+					dispose();
+					
+					View_schedule VS = new View_schedule();
+					
+					
+				}else {
+					result.setText("ID/PW가 맞지 않습니다.");
+				};
 
 			}
 		});
@@ -100,12 +106,14 @@ public class View_login_register extends JFrame{
 				loginPanel.removeAll();
 				
 				register();
-				
-				
-				
+
 			}
 		});
 		
+		//로그인 결과 출력
+		result = new JLabel("");
+		result.setBounds(102, 200, 200, 15);
+		loginPanel.add(result);
 		
 		setTitle("로그인");
 		setSize(500, 500);

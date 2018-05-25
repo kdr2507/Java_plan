@@ -7,17 +7,20 @@ public class ControllerPlan {
 	public void view(){
 		View_login_register TF = new View_login_register();
 		
-		TF.main_plan();
+		TF.login();
 	}
 	
 	//로그인 메서드
-	public void login_controller(String ID, String PW) {
+	public boolean login_controller(String ID, String PW) {
 		Model_login_register MP = new Model_login_register();
 		if(MP.loginUser(ID, PW)) {
-			System.out.println("로그인 완료");
+
+			return true;
+			
 		}else{
-			System.out.println("ID/PW가 맞지 않습니다.");
-		};
+			
+			return false;
+		}
 	}
 	
 	//회원가입 메서드
