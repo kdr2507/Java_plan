@@ -1,0 +1,46 @@
+package Controller;
+import Model.ModelPlan;
+import View.ViewPlan;
+
+
+public class ControllerPlan {
+	public void view(){
+		ViewPlan TF = new ViewPlan();
+		
+		TF.main_plan();
+	}
+	
+	//로그인 메서드
+	public void login_controller(String ID, String PW) {
+		ModelPlan MP = new ModelPlan();
+		if(MP.loginUser(ID, PW)) {
+			System.out.println("로그인 완료");
+		}else{
+			System.out.println("ID/PW가 맞지 않습니다.");
+		};
+	}
+	
+	//회원가입 메서드
+	public boolean register(String ID, String PW, String PW_Check) {
+		ModelPlan MP = new ModelPlan();
+		
+		return MP.registerUser(ID, PW, PW_Check);
+	}
+	
+	//2개의 텍스트 같은지 다른지 여부 판단
+	public boolean text_equal_check(String first_text, String second_text) {
+		
+		if(first_text.equals(second_text)) {
+			return true;
+		}else {
+			return false;
+		}
+	}
+	
+	public boolean id_check(String ID) {
+		ModelPlan MP = new ModelPlan();
+		
+		return MP.ID_Check(ID);
+	}
+	
+}

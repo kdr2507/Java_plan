@@ -1,4 +1,5 @@
-package Plan;
+package View;
+
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -12,6 +13,8 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
+
+import Controller.ControllerPlan;
 
 public class ViewPlan extends JFrame{
 	
@@ -35,7 +38,7 @@ public class ViewPlan extends JFrame{
 		
 	}
 	
-	private void login(){
+	public void login(){
 		
 		//로그인 패널 생성
 		loginPanel = new JPanel();
@@ -84,23 +87,20 @@ public class ViewPlan extends JFrame{
 				String sendId = inputId.getText();
 				String sendPw = inputPw.getText();
 				
-				ModelPlan login_check = new ModelPlan();
-				if(login_check.loginUser(sendId, sendPw) == true) {
-					System.out.println("존재하는 유저입니다.");					
-				}else {
-					System.out.println("존재하는 유저가 아닙니다.");
-				}
+				
+				ControllerPlan CP = new ControllerPlan();
+				CP.login_controller(sendId, sendPw);
 
 			}
 		});
 		
-		//회원가입 버튼을 누를 경우 동작
+		//회원가입 버튼을 누를 경우 동작 회원가입 페이지 이동
 		register_button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
 				loginPanel.removeAll();
 				
 				register();
+				
 				
 				
 			}
@@ -114,7 +114,7 @@ public class ViewPlan extends JFrame{
 	}
 	
 	//회원가입 페이지
-	private void register() {
+	public void register() {
 		
 		
 		//로그인 패널 생성
@@ -145,6 +145,53 @@ public class ViewPlan extends JFrame{
 		registerPanel.add(input_id_register);
 		input_id_register.setColumns(10);
 		
+		input_id_register.addKeyListener(new KeyListener() {
+			
+			// 누른키를떼는순간 유니코드키가 입력된경우에만 실행
+			public void keyTyped(KeyEvent e) {
+				
+			}
+			
+			// 키를 때는 순간 실행
+			public void keyReleased(KeyEvent e) {
+				id_check = false;
+			}
+			
+			// 키를 누르는 순간 실행
+			public void keyPressed(KeyEvent e) {
+				
+				
+			}
+		});
+		
+		
+		//ID가 존재하는지 확인 하는 버튼
+		id_check_button_register = new JButton("ID Check");
+		id_check_button_register.setBounds(301, 72, 97, 23);
+		registerPanel.add(id_check_button_register);
+		
+		//ID가 존재하는지 확인 이벤트
+		id_check_button_register.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				if(input_id_register.getText().length() != 0) {
+					ControllerPlan CP = new ControllerPlan();
+					
+					if(CP.id_check(input_id_register.getText())) {
+						id_check = true;
+						result_label_register.setText("사용 가능한 ID 입니다.");
+					}else {
+						id_check = false;
+						result_label_register.setText("불가능한 ID 입니다.");
+					}
+				}else {
+					result_label_register.setText("ID를 입력해 주세요");
+				}
+				
+			}
+		});
+		
+		
 		//PW 입력창
 		input_pw_register = new JPasswordField();
 		input_pw_register.setBounds(184, 98, 116, 21);
@@ -165,15 +212,15 @@ public class ViewPlan extends JFrame{
 			
 			// 키를 때는 순간 실행
 			public void keyReleased(KeyEvent e) {
-				
-				if(input_pw_register.getText().equals(input_pw_check_register.getText())) {
+				ControllerPlan CP = new ControllerPlan();
+				if(CP.text_equal_check(input_pw_register.getText(), input_pw_check_register.getText())) {
 					pw_check = true;
 					pw_equal_check_register.setText("O");
-
-				}else {
+				}else{
+					pw_check = false;
 					pw_equal_check_register.setText("X");
-
-				}
+				};
+				
 				
 			}
 			
@@ -207,45 +254,28 @@ public class ViewPlan extends JFrame{
 		//회원가입 이벤트
 		button_register.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(pw_equal_check_register.getText().equals("O")) {
-					ModelPlan MP = new ModelPlan();
-					if(id_check && pw_check) {
-						if(MP.registerUser(input_id_register.getText(), input_pw_register.getText(), input_pw_check_register.getText()) == true) {
+
+				ControllerPlan CP = new ControllerPlan();
+				
+				if(id_check) {
+					if(pw_check) {
+						if(CP.register(input_id_register.getText(), input_pw_register.getText(), input_pw_check_register.getText())) {
 							result_label_register.setText("회원가입이 완료되었습니다.");
 						}else {
 							result_label_register.setText("회원가입이 완료되지 않았습니다.");
 						}
 					}else {
-						System.out.println("ID, PW 확인해주세요");
+						result_label_register.setText("PW를 다시 확인해 주세요");
 					}
-					
-				}else if(pw_equal_check_register.getText().equals("X")){
-					pw_equal_check_register.setText("PW가 일치하지 않습니다.");
+				}else {
+					result_label_register.setText("ID를 다시 확인해 주세요");
 				}
+
 				
 			}
 		});
 		
-		//ID가 존재하는지 확인 하는 버튼
-		id_check_button_register = new JButton("ID Check");
-		id_check_button_register.setBounds(301, 72, 97, 23);
-		registerPanel.add(id_check_button_register);
 		
-		//ID가 존재하는지 확인 이벤트
-		id_check_button_register.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				ModelPlan MP = new ModelPlan();
-				if(MP.ID_Check(input_id_register.getText())) {
-					id_check = true;
-					
-					result_label_register.setText("ID 사용 가능!");
-					
-				}else {
-					result_label_register.setText("회원가입 불가능 존재하는 ID");
-					
-				}
-			}
-		});
 		
 		//PW가 동일하면 O 틀리면 X
 		pw_equal_check_register = new JLabel("");

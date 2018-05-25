@@ -1,6 +1,6 @@
 package Plan;
 
-import Plan.ControllerPlan;
+import Controller.ControllerPlan;
 
 public class MainPlan{	
 	
