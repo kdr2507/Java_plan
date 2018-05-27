@@ -91,7 +91,7 @@ public class View_login_register extends JFrame{
 					dispose();
 					
 					View_schedule VS = new View_schedule();
-					
+					VS.schedule_main();
 					
 				}else {
 					result.setText("ID/PW가 맞지 않습니다.");
